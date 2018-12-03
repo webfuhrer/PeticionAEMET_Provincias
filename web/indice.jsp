@@ -10,6 +10,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 ArrayList<Provincia> lista_provincias=AccesoBD.recuperarProvincias();
+int a=9;
+
 %>
 <html>
     <head>
@@ -18,6 +20,7 @@ ArrayList<Provincia> lista_provincias=AccesoBD.recuperarProvincias();
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <form action="ServletAEMET" method="GET">
         <select name="provincia">
             <% for (int i=0; i<lista_provincias.size(); i++)
             { Provincia p=lista_provincias.get(i);
@@ -26,6 +29,7 @@ ArrayList<Provincia> lista_provincias=AccesoBD.recuperarProvincias();
 <option value="<%=p.getId_provincia()%>"><%=p.getProvincia()%></option>
 <% } %>
         </select>
-        
+        <input type="submit" value="Enviar">
+        </form>
     </body>
 </html>
