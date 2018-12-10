@@ -21,5 +21,16 @@ public class PintarHTML {
         html+="</select>";
         return html;
     }
+    public static String crearTabla(Clima clima)
+    {
+        ArrayList<Dia> lista_dias=clima.getLista_dias();
+        String aux_tabla="<table>";
+        aux_tabla+="<tr><th>Fecha</th><th>Temp. minima</th><th>Temp. máxima</th</tr>";
+        for (Dia dia : lista_dias) {
+            aux_tabla+="<tr><td>"+dia.getFecha()+"</td><td>"+dia.getT_minima()+"</td><td>"+dia.getT_maxima()+"</td></tr>";
+        }
+        aux_tabla+="</table>";
+                return aux_tabla;
+    }
     
 }

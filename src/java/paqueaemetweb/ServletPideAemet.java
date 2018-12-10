@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jdom2.Document;
 
 /**
  *
@@ -31,21 +32,29 @@ public class ServletPideAemet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        
         String municipio=request.getParameter("municipio");
         String provincia=request.getParameter("id_provincia");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletPideAemet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Municipio: "+municipio+" Provincia:"+provincia+"</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        //Fabricar el codigo para la peticion
+        //XXYYY XX es provincia y YYY es municipio
+        if(provincia.length()<2) 
+        {
+            provincia="0"+provincia;
         }
+        while(municipio.length()<3)
+        {
+            municipio="0"+municipio;
+        }
+        String codigo=provincia+municipio;
+        String xml_respuesta=AccesoWeb.pedirXML(codigo);
+        Document documento_xml=ParseaXML.convertirStringEnDocument(xml_respuesta);
+        Clima c=ParseaXML.parsearXML(documento_xml);
+        request.setAttribute("clima", c);
+        request.getRequestDispatcher("verclima.jsp").forward(request, response);
+        //Hacer peticion
+        //Parsear
+        //Enviar a verclima.jsp y que aquí se pinte una tabla
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
